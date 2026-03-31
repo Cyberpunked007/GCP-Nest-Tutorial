@@ -183,4 +183,42 @@ export class StorageService {
       throw new InternalServerErrorException('Failed to delete files');
     }
   }
+
+  async generateSignedReadUrl(
+    filePath: string,
+    expiresInMinutes = 5,
+  ): Promise<string> {
+    const options = {
+      version: 'v4' as const,
+      action: 'read' as const,
+      expires: Date.now() + expiresInMinutes * 60 * 1000,
+    };
+
+    const [url] = await this.storage
+      .bucket(this.bucketName)
+      .file(filePath)
+      .getSignedUrl(options);
+
+    return url;
+  }
+
+  async generateSignedUploadUrl(
+    filePath: string,
+    contentType: string,
+    expiresInMinutes = 5,
+  ): Promise<string> {
+    const options = {
+      version: 'v4' as const,
+      action: 'write' as const,
+      expires: Date.now() + expiresInMinutes * 60 * 1000,
+      contentType,
+    };
+
+    const [url] = await this.storage
+      .bucket(this.bucketName)
+      .file(filePath)
+      .getSignedUrl(options);
+
+    return url;
+  }
 }
