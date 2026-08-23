@@ -1,0 +1,14 @@
+{
+  "name": "gcp-functions",
+  "main": "dist/index.js",
+  "scripts": {
+    "gcp-build": "tsc",
+    "start": "functions-framework --target=greet"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
